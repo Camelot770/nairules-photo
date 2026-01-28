@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Telegram Mini App specific styles */
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 2px;
+}
+
+/* Smooth transitions */
+.page-transition {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button hover effects */
+.btn-primary {
+  @apply bg-black text-white px-6 py-3 font-medium transition-all duration-300 ease-out;
+}
+
+.btn-primary:hover {
+  @apply bg-gray-800;
+}
+
+.btn-primary:active {
+  @apply scale-95;
+}
+
+/* Image lazy loading placeholder */
+.img-placeholder {
+  @apply bg-gray-100 animate-pulse;
+}
+
+/* Navigation active state */
+.nav-item {
+  @apply flex flex-col items-center justify-center py-2 px-4 transition-colors duration-200;
+}
+
+.nav-item.active {
+  @apply text-black;
+}
+
+.nav-item:not(.active) {
+  @apply text-gray-400;
+}
+
+/* Masonry grid for portfolio */
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.masonry-item {
+  @apply overflow-hidden rounded-sm;
+}
+
+/* Lightbox styles */
+.lightbox-overlay {
+  @apply fixed inset-0 bg-black z-50 flex items-center justify-center;
+}
+
+.lightbox-image {
+  @apply max-w-full max-h-full object-contain;
+}
+
+/* Form input styles */
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors duration-200 text-base;
+}
+
+.form-input::placeholder {
+  @apply text-gray-400;
+}
+
+.form-label {
+  @apply block text-sm font-medium mb-2 text-gray-700;
+}
+
+/* Hero section */
+.hero-overlay {
+  @apply absolute inset-0 bg-black/30;
+}
+
+/* Safe area padding for iOS */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
