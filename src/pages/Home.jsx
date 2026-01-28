@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import OptimizedImage from '../components/OptimizedImage'
 
 // Preview photos
 const previewPhotos = [
@@ -18,12 +19,18 @@ export default function Home() {
     <div className="page-transition">
       {/* Hero Section - Full height */}
       <section className="relative h-[85vh] flex items-end overflow-hidden">
-        {/* Background image */}
-        <img
-          src="/portfolio/1.jpg"
-          alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {/* Background image with WebP support */}
+        <picture>
+          <source srcSet="/portfolio/1.webp" type="image/webp" />
+          <img
+            src="/portfolio/1.jpg"
+            alt="Hero"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+          />
+        </picture>
 
         {/* Gradient overlay - subtle at top, stronger at bottom */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -62,37 +69,28 @@ export default function Home() {
         <div className="flex gap-3">
           {/* Left column */}
           <div className="flex-1 flex flex-col gap-3">
-            {previewPhotos.filter((_, i) => i % 2 === 0).map((photo) => (
-              <div
+            {previewPhotos.filter((_, i) => i % 2 === 0).map((photo, idx) => (
+              <OptimizedImage
                 key={photo.id}
-                className="relative overflow-hidden cursor-pointer group"
+                src={photo.src}
+                alt={`Фото ${photo.id}`}
+                className="cursor-pointer group"
                 onClick={() => navigate('/portfolio')}
-              >
-                <img
-                  src={photo.src}
-                  alt={`Фото ${photo.id}`}
-                  className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.03]"
-                  loading="lazy"
-                />
-              </div>
+                priority={idx === 0}
+              />
             ))}
           </div>
 
           {/* Right column - offset for visual interest */}
           <div className="flex-1 flex flex-col gap-3 mt-8">
             {previewPhotos.filter((_, i) => i % 2 === 1).map((photo) => (
-              <div
+              <OptimizedImage
                 key={photo.id}
-                className="relative overflow-hidden cursor-pointer group"
+                src={photo.src}
+                alt={`Фото ${photo.id}`}
+                className="cursor-pointer group"
                 onClick={() => navigate('/portfolio')}
-              >
-                <img
-                  src={photo.src}
-                  alt={`Фото ${photo.id}`}
-                  className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.03]"
-                  loading="lazy"
-                />
-              </div>
+              />
             ))}
           </div>
         </div>
