@@ -39,22 +39,26 @@ export default function BookingForm() {
     const message = formatMessage()
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`
 
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: 'HTML',
-        }),
-      })
+    // Support multiple chat IDs separated by comma
+    const chatIds = CHAT_ID.split(',').map(id => id.trim())
 
-      if (!response.ok) {
-        throw new Error('Failed to send message')
-      }
+    try {
+      // Send to all chat IDs
+      await Promise.all(
+        chatIds.map(chatId =>
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: 'HTML',
+            }),
+          })
+        )
+      )
 
       return true
     } catch (err) {
